@@ -1,0 +1,87 @@
+type Query {
+    map: [Level!]!
+    parkingSpace(id: ID!): ParkingSpace!
+    myReservations: [Reservation!]!
+    searchByLicencePlate(queryString: String!): [Car!]!
+}
+
+type Mutation {
+    makeReservation(parkingSpaceId: ID!, date: DateTime!, type: ReservationType!, carId: ID!): Reservation!
+    notifyUser(userId: ID!, notificationType: NotificationType!, message: String): Boolean
+}
+
+enum NotificationType {
+    LIGHTS_ON
+    OTHER
+    # TODO: Extend
+}
+
+type Car {
+    id: ID!
+    licencePlate: String!
+    user: User!
+}
+
+type ParkingSpace {
+    id: ID!
+    label: String!
+    level: Level!
+    type: ParkingSpaceType!
+    longitude: Float!
+    latitude: Float!
+    rotation: Float!
+    owner: User
+    currentStatus: ParkingSpaceStatus!
+}
+
+enum ParkingSpaceStatus {
+    FREE
+    RESERVED
+    RESERVED_FOR_OWNER
+    OCCUPIED
+}
+
+type Reservation {
+    id: ID!
+    user: User!
+    parkingSpace: ParkingSpace!
+    date: DateTime!
+    car: Car!
+    type: ReservationType!
+    status: ReservationStatus!
+}
+
+enum ReservationStatus {
+    CREATED
+    CHECKED_IN
+    CHECKED_OUT
+}
+
+enum ReservationType {
+    ALL_DAY
+    MORNING
+    AFTERNOON
+}
+
+type User {
+    id: ID!
+    name: String!
+    avatar: String!
+    phoneNumber: String!
+    cars: [Car!]!
+    parkingSpace: ParkingSpace
+}
+
+enum ParkingSpaceType {
+    NORMAL
+    ELECTRIC
+    DISABLED
+}
+
+type Level {
+    id: ID!
+    label: String!
+    spaces: [ParkingSpace!]!
+}
+
+scalar DateTime
