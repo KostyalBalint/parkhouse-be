@@ -23,7 +23,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: registry.gitlab.com/anton-apps/${{ github.event.repository.name }}
+          images: registry.gitlab.com/kosbalint/anton-apps/${{ github.event.repository.name }}
           flavor: |
             latest=false
 
