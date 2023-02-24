@@ -7,11 +7,16 @@ import { PrismaService } from '../../prisma/PrismaService';
 export class CarService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async searchByLicencePlate(licencePlate: string): Promise<PartialDeep<Car>> {
-    return this.prismaService.car.findUnique({
+  async searchByPartialLicencePlate(
+    queryString: string,
+  ): Promise<PartialDeep<Car | null>[]> {
+    return this.prismaService.car.findMany({
       where: {
-        licencePlate,
+        licencePlate: {
+          contains: queryString,
+        },
       },
+      take: 10,
     });
   }
 

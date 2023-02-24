@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma/PrismaService';
 
 @Injectable()
-export class ReservationsService {
+export class ReservationService {
   constructor(private readonly prismaService: PrismaService) {}
 
   getReservationsByUserId(id: string) {

@@ -3,6 +3,7 @@ type Query {
     parkingSpace(id: ID!): ParkingSpace!
     myReservations: [Reservation!]!
     searchByLicencePlate(queryString: String!): [Car!]!
+    user(id: ID!): User!
 }
 
 type Mutation {

@@ -7,8 +7,8 @@ export class CarResolver {
   constructor(private readonly carService: CarService) {}
 
   @Query('searchByLicencePlate')
-  async searchByLicencePlate(@Args('licencePlate') licencePlate: string) {
-    return await this.carService.searchByLicencePlate(licencePlate);
+  async searchByLicencePlate(@Args('licencePlate') queryString: string) {
+    return await this.carService.searchByPartialLicencePlate(queryString);
   }
 
   @ResolveField('user')

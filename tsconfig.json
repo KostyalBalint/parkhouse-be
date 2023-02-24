@@ -1,21 +1,16 @@
 {
+  // Extends https://github.com/tsconfig/bases/blob/main/bases/node16.json
+  "extends": "@tsconfig/node16/tsconfig.json",
+  //"files": ["./global.d.ts"],
+  "baseUrl": "src",
   "compilerOptions": {
-    "module": "commonjs",
-    "declaration": true,
-    "removeComments": true,
+    "composite": true,
+    "declarationMap": true,
+    "resolveJsonModule": true,
+    "outDir": "dist",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "allowSyntheticDefaultImports": true,
-    "target": "es2017",
-    "sourceMap": true,
-    "outDir": "./dist",
-    "baseUrl": "./",
-    "incremental": true,
-    "skipLibCheck": true,
-    "strictNullChecks": false,
-    "noImplicitAny": false,
-    "strictBindCallApply": false,
-    "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false
-  }
+    "strictPropertyInitialization": false
+  },
+  "include": ["src"]
 }

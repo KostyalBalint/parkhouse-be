@@ -43,6 +43,7 @@ export interface IQuery {
     parkingSpace(id: string): ParkingSpace | Promise<ParkingSpace>;
     myReservations(): Reservation[] | Promise<Reservation[]>;
     searchByLicencePlate(queryString: string): Car[] | Promise<Car[]>;
+    user(id: string): User | Promise<User>;
 }
 
 export interface IMutation {

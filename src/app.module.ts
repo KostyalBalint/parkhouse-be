@@ -7,10 +7,14 @@ import { CarModule } from './modules/car/car.module';
 import { LevelModule } from './modules/level/level.module';
 import { ParkingSpaceService } from './modules/parking-space/parking-space.service';
 import { ParkingSpaceResolver } from './modules/parking-space/parking-space.resolver';
-import { MyReservationsResolver } from './modules/my-reservations/my-reservations.resolver';
-import { MyReservationsService } from './modules/my-reservations/my-reservations.service';
-import { ReservationsResolver } from './modules/reservations/reservations.resolver';
-import { ReservationsService } from './modules/reservations/reservations.service';
+import { UserService } from './modules/user/user.service';
+import { UserResolver } from './modules/user/user.resolver';
+import { ReservationResolver } from './modules/reservation/reservation.resolver';
+import { ReservationService } from './modules/reservation/reservation.service';
+import { PrismaService } from './prisma/PrismaService';
+import { ParkingSpaceModule } from './modules/parking-space/parking-space.module';
+import { ReservationModule } from './modules/reservation/reservation.module';
+import { UserModule } from './modules/user/user.module';
 
 @Module({
   imports: [
@@ -22,7 +26,10 @@ import { ReservationsService } from './modules/reservations/reservations.service
     }),
     CarModule,
     LevelModule,
+    ParkingSpaceModule,
+    ReservationModule,
+    UserModule,
   ],
-  providers: [ParkingSpaceService, ParkingSpaceResolver, MyReservationsResolver, MyReservationsService, ReservationsResolver, ReservationsService],
+  providers: [],
 })
 export class AppModule {}

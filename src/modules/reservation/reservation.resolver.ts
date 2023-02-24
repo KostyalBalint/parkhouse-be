@@ -1,10 +1,10 @@
 import { Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
-import { ReservationsService } from './reservations.service';
+import { ReservationService } from './reservation.service';
 import { Reservation } from '../../graphql/graphqlTypes';
 
 @Resolver('Reservation')
-export class ReservationsResolver {
-  constructor(private readonly reservationsService: ReservationsService) {}
+export class ReservationResolver {
+  constructor(private readonly reservationsService: ReservationService) {}
 
   @Query('myReservations')
   async myReservations() {
