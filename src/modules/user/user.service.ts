@@ -13,10 +13,22 @@ export class UserService {
   }
 
   async getCarsByUserId(id: string) {
-    return this.prismaService.user.findUnique({ where: { id } }).cars();
+    const cars = await this.prismaService.user
+      .findUnique({ where: { id } })
+      .cars();
+    if (!cars) {
+      throw new NotFoundException('Cars not found');
+    }
+    return cars;
   }
 
   async getParkingSpaceByUserId(id: string) {
-    return this.prismaService.user.findUnique({ where: { id } }).ParkingSpace();
+    const parkingSpace = await this.prismaService.user
+      .findUnique({ where: { id } })
+      .ParkingSpace();
+    if (!parkingSpace) {
+      throw new NotFoundException('Parking space not found');
+    }
+    return parkingSpace;
   }
 }

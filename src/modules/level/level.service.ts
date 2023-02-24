@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../../prisma/PrismaService';
 import { Level } from '../../graphql/graphqlTypes';
 import { PartialDeep } from 'type-fest';
@@ -11,8 +11,12 @@ export class LevelService {
   }
 
   getSpacesByLevelId(id: string) {
-    return this.prismaService.level
+    const parkingSpaces = this.prismaService.level
       .findUnique({ where: { id } })
       .ParkingSpace();
+    if (!parkingSpaces) {
+      throw new NotFoundException('Level not found');
+    }
+    return parkingSpaces;
   }
 }

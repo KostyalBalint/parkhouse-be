@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Car } from '../../graphql/graphqlTypes';
 import { PartialDeep } from 'type-fest';
 import { PrismaService } from '../../prisma/PrismaService';
@@ -21,6 +21,12 @@ export class CarService {
   }
 
   async getUserByCarId(carId: string) {
-    return this.prismaService.car.findUnique({ where: { id: carId } }).user();
+    const user = this.prismaService.car
+      .findUnique({ where: { id: carId } })
+      .user();
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    return user;
   }
 }
