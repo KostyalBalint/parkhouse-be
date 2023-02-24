@@ -42,16 +42,34 @@ export interface IQuery {
     levels(): Level[] | Promise<Level[]>;
     parkingSpace(id: string): ParkingSpace | Promise<ParkingSpace>;
     myReservations(): Reservation[] | Promise<Reservation[]>;
+    myResignation(): Resignation[] | Promise<Resignation[]>;
     searchByLicencePlate(queryString: string): Car[] | Promise<Car[]>;
     user(id: string): User | Promise<User>;
+    myUser(): User | Promise<User>;
+    gameCars(): GameCar[] | Promise<GameCar[]>;
 }
 
 export interface IMutation {
     makeReservation(parkingSpaceId: string, date: DateTime, type: ReservationType, carId: string): Reservation | Promise<Reservation>;
+    makeResignation(parkingSpaceId: string, date: DateTime, type: ReservationType, carId: string): Resignation | Promise<Resignation>;
     changeReservationStatus(reservationId: string, type: ReservationType): Reservation | Promise<Reservation>;
     notifyUser(userId: string, notificationType: NotificationType, message?: Nullable<string>): Nullable<boolean> | Promise<Nullable<boolean>>;
     login(userName: string, password: string): LoginResponse | Promise<LoginResponse>;
-    logout(): Nullable<boolean> | Promise<Nullable<boolean>>;
+    buyGameCar(gameCarId: string): Nullable<boolean> | Promise<Nullable<boolean>>;
+    selectGameCar(gameCarId: string): Nullable<boolean> | Promise<Nullable<boolean>>;
+}
+
+export interface User {
+    id: string;
+    name: string;
+    avatar: string;
+    phoneNumber: string;
+    cars: Car[];
+    parkingSpace?: Nullable<ParkingSpace>;
+    hasFixedParkingSpace: boolean;
+    coin: number;
+    ownedGameCars: GameCar[];
+    selectedGameCar: GameCar;
 }
 
 export interface LoginResponse {
@@ -70,11 +88,16 @@ export interface ParkingSpace {
     label: string;
     level: Level;
     type: ParkingSpaceType;
-    longitude: number;
-    latitude: number;
-    rotation: number;
     owner?: Nullable<User>;
     currentStatus: ParkingSpaceStatus;
+}
+
+export interface GameCar {
+    id: string;
+    name: string;
+    price: number;
+    image: string;
+    owned: boolean;
 }
 
 export interface Reservation {
@@ -87,13 +110,11 @@ export interface Reservation {
     status: ReservationStatus;
 }
 
-export interface User {
+export interface Resignation {
     id: string;
-    name: string;
-    avatar: string;
-    phoneNumber: string;
-    cars: Car[];
-    parkingSpace?: Nullable<ParkingSpace>;
+    user: User;
+    parkingSpace: ParkingSpace;
+    date: DateTime;
 }
 
 export interface Level {

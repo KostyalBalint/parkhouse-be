@@ -10,7 +10,7 @@ function seedUsers({ count }: { count: number }) {
     avatar: faker.image.avatar(),
     phoneNumber: faker.phone.number('+36-30-###-####'),
     password: 'password',
-    coin: null,
+    coin: 123,
   });
   return prisma.user.createMany({
     data: Array.from({ length: count }).map(fakerUser),
