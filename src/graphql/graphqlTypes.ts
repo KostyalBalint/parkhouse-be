@@ -39,7 +39,7 @@ export enum ParkingSpaceType {
 }
 
 export interface IQuery {
-    map(): Level[] | Promise<Level[]>;
+    levels(): Level[] | Promise<Level[]>;
     parkingSpace(id: string): ParkingSpace | Promise<ParkingSpace>;
     myReservations(): Reservation[] | Promise<Reservation[]>;
     searchByLicencePlate(queryString: string): Car[] | Promise<Car[]>;

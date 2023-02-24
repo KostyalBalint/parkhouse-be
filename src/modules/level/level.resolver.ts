@@ -6,8 +6,8 @@ import { LevelService } from './level.service';
 export class LevelResolver {
   constructor(private readonly levelService: LevelService) {}
 
-  @Query()
-  async map() {
+  @Query('levels')
+  async levels() {
     return this.levelService.getAll();
   }
 

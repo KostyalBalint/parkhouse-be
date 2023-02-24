@@ -1,5 +1,5 @@
 type Query {
-    map: [Level!]!
+    levels: [Level!]!
     parkingSpace(id: ID!): ParkingSpace!
     myReservations: [Reservation!]!
     searchByLicencePlate(queryString: String!): [Car!]!
