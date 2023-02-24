@@ -7,6 +7,10 @@ import { CarModule } from './modules/car/car.module';
 import { LevelModule } from './modules/level/level.module';
 import { ParkingSpaceService } from './modules/parking-space/parking-space.service';
 import { ParkingSpaceResolver } from './modules/parking-space/parking-space.resolver';
+import { MyReservationsResolver } from './modules/my-reservations/my-reservations.resolver';
+import { MyReservationsService } from './modules/my-reservations/my-reservations.service';
+import { ReservationsResolver } from './modules/reservations/reservations.resolver';
+import { ReservationsService } from './modules/reservations/reservations.service';
 
 @Module({
   imports: [
@@ -19,6 +23,6 @@ import { ParkingSpaceResolver } from './modules/parking-space/parking-space.reso
     CarModule,
     LevelModule,
   ],
-  providers: [ParkingSpaceService, ParkingSpaceResolver],
+  providers: [ParkingSpaceService, ParkingSpaceResolver, MyReservationsResolver, MyReservationsService, ReservationsResolver, ReservationsService],
 })
 export class AppModule {}
