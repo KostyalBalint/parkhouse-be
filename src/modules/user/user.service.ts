@@ -2,7 +2,6 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../../prisma/PrismaService';
 import { LoginResponse } from '../../graphql/graphqlTypes';
 import { PartialDeep } from 'type-fest';
-import jwt from 'jsonwebtoken';
 import { TokenService } from '../../token/token.service';
 
 @Injectable()

@@ -15,7 +15,6 @@ import { createContext } from './graphql/createContext';
 @Module({
   imports: [
     HealthModule,
-    Config,
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       typePaths: ['./**/*.graphql'],
@@ -28,6 +27,6 @@ import { createContext } from './graphql/createContext';
     UserModule,
     ResignationModule,
   ],
-  providers: [TokenService],
+  providers: [TokenService, Config],
 })
 export class AppModule {}
