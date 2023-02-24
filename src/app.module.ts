@@ -5,6 +5,8 @@ import { Config } from './config/config';
 import { HealthModule } from './health/health.module';
 import { CarModule } from './modules/car/car.module';
 import { LevelModule } from './modules/level/level.module';
+import { ParkingSpaceService } from './modules/parking-space/parking-space.service';
+import { ParkingSpaceResolver } from './modules/parking-space/parking-space.resolver';
 
 @Module({
   imports: [
@@ -17,5 +19,6 @@ import { LevelModule } from './modules/level/level.module';
     CarModule,
     LevelModule,
   ],
+  providers: [ParkingSpaceService, ParkingSpaceResolver],
 })
 export class AppModule {}

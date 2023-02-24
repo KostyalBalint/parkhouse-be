@@ -1,16 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma/PrismaService';
+import { Level } from '../../graphql/graphqlTypes';
+import { PartialDeep } from 'type-fest';
 
 @Injectable()
 export class LevelService {
   constructor(private readonly prismaService: PrismaService) {}
-  getAll() {
-    return [
-      {
-        id: 1,
-        label: 'Level 1',
-      },
-    ];
+  async getAll(): Promise<PartialDeep<Level>[]> {
+    return await this.prismaService.level.findMany();
   }
 
   getSpacesByLevelId(id: string) {
