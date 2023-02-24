@@ -24,13 +24,11 @@ model ParkingSpace {
   level         Level              @relation(fields: [levelId], references: [id])
   levelId       String
   type          ParkingSpaceType
-  longitude     Float
-  latitude      Float
-  rotation      Float
   owner         User?              @relation(fields: [ownerId], references: [id])
-  ownerId       String?
+  ownerId       String?            @unique
   currentStatus ParkingSpaceStatus
   Reservation   Reservation[]
+  Resignation   Resignation[]
 }
 
 model Reservation {
@@ -46,14 +44,33 @@ model Reservation {
   status         ReservationStatus
 }
 
+model Resignation {
+  id             String       @id @default(uuid())
+  user           User         @relation(fields: [userId], references: [id])
+  userId         String
+  parkingSpace   ParkingSpace @relation(fields: [parkingSpaceId], references: [id])
+  parkingSpaceId String
+  date           DateTime
+}
+
 model User {
-  id           String         @id @default(uuid())
-  name         String
+  id           String        @id @default(uuid())
+  name         String        @unique
+  password     String
   avatar       String
   phoneNumber  String
   cars         Car[]
-  ParkingSpace ParkingSpace[]
   Reservation  Reservation[]
+  Resignation  Resignation[]
+  ParkingSpace ParkingSpace?
+  coin         Int           @default(0)
+}
+
+model GameCar {
+  id    String @id @default(uuid())
+  name  String
+  price Int
+  image String
 }
 
 model Level {

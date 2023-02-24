@@ -1,9 +1,16 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../../prisma/PrismaService';
+import { LoginResponse } from '../../graphql/graphqlTypes';
+import { PartialDeep } from 'type-fest';
+import jwt from 'jsonwebtoken';
+import { TokenService } from '../../token/token.service';
 
 @Injectable()
 export class UserService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(
+    private readonly prismaService: PrismaService,
+    private readonly tokenService: TokenService,
+  ) {}
   async getUserById(id: string) {
     const user = await this.prismaService.user.findUnique({ where: { id } });
     if (!user) {
@@ -30,5 +37,35 @@ export class UserService {
       throw new NotFoundException('Parking space not found');
     }
     return parkingSpace;
+  }
+
+  async login(
+    userName: string,
+    password: string,
+  ): Promise<PartialDeep<LoginResponse>> {
+    const user = await this.prismaService.user.findUnique({
+      where: {
+        name: userName,
+      },
+    });
+
+    //TODO: NEVER EVER STORE PLAIN TEXT PASSWORD IN PRODUCTION, ONLY FOR DEMO PURPOSES
+    const isPasswordCorrect = user?.password === password;
+    if (!isPasswordCorrect) {
+      throw new NotFoundException('Invalid credentials');
+    }
+
+    return {
+      user: user,
+      token: this.tokenService.generateToken(user),
+    };
+  }
+
+  async hasFixedParkingSpace(id: string) {
+    const parkingSpace = await this.prismaService.user
+      .findUnique({ where: { id } })
+      .ParkingSpace();
+
+    return parkingSpace?.ownerId === id;
   }
 }

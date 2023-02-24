@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../../prisma/PrismaService';
+import { ReservationStatus, ReservationType } from '../../graphql/graphqlTypes';
 
 @Injectable()
 export class ReservationService {
@@ -42,5 +43,41 @@ export class ReservationService {
       throw new NotFoundException('Car not found');
     }
     return car;
+  }
+
+  async makeReservation(
+    parkingSpaceId: string,
+    date: Date,
+    type: ReservationType,
+    carId: string,
+  ) {
+    //Todo get userId from AuthContext
+    const userId = '1';
+
+    return await this.prismaService.reservation.create({
+      data: {
+        carId: carId,
+        parkingSpaceId: parkingSpaceId,
+        date: date,
+        type: type,
+        userId: userId,
+        status: ReservationStatus.CREATED,
+      },
+    });
+  }
+
+  async changeReservationStatus(
+    reservationId: string,
+    status: ReservationStatus,
+  ) {
+    //TODO: Check if the user is the owner of the reservation
+    return await this.prismaService.reservation.update({
+      where: {
+        id: reservationId,
+      },
+      data: {
+        status: status,
+      },
+    });
   }
 }

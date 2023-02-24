@@ -1,4 +1,11 @@
-import { Args, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
+import {
+  Args,
+  Mutation,
+  Parent,
+  Query,
+  ResolveField,
+  Resolver,
+} from '@nestjs/graphql';
 import { UserService } from './user.service';
 import { User } from '../../graphql/graphqlTypes';
 
@@ -10,6 +17,14 @@ export class UserResolver {
     return await this.userService.getUserById(id);
   }
 
+  @Mutation('login')
+  async login(
+    @Args('userName') userName: string,
+    @Args('password') password: string,
+  ) {
+    return await this.userService.login(userName, password);
+  }
+
   @ResolveField('cars')
   async getCars(@Parent() user: User) {
     return await this.userService.getCarsByUserId(user.id);
@@ -18,5 +33,10 @@ export class UserResolver {
   @ResolveField('parkingSpace')
   async getParkingSpace(@Parent() user: User) {
     return await this.userService.getParkingSpaceByUserId(user.id);
+  }
+
+  @ResolveField('hasFixedParkingSpace')
+  async hasFixedParkingSpace(@Parent() user: User) {
+    return await this.userService.hasFixedParkingSpace(user.id);
   }
 }

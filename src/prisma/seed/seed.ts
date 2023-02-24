@@ -9,13 +9,14 @@ function seedUsers({ count }: { count: number }) {
     name: faker.name.firstName(),
     avatar: faker.image.avatar(),
     phoneNumber: faker.phone.number('+36-30-###-####'),
+    password: 'password',
   });
   return prisma.user.createMany({
     data: Array.from({ length: count }).map(fakerUser),
   });
 }
 
-async function seedCars({ count, users }: { count: number; users: User[] }) {
+async function seedCars({ users }: { users: User[] }) {
   const cars = users.map((user) => ({
     licencePlate: faker.vehicle.vin(),
     userId: user.id,
@@ -42,7 +43,6 @@ async function main() {
   console.log('Seeded users:', users.count);*/
 
   const cars = await seedCars({
-    count: 10,
     users: await prisma.user.findMany(),
   });
   console.log('Seed cars:', cars.count);

@@ -48,7 +48,15 @@ export interface IQuery {
 
 export interface IMutation {
     makeReservation(parkingSpaceId: string, date: DateTime, type: ReservationType, carId: string): Reservation | Promise<Reservation>;
+    changeReservationStatus(reservationId: string, type: ReservationType): Reservation | Promise<Reservation>;
     notifyUser(userId: string, notificationType: NotificationType, message?: Nullable<string>): Nullable<boolean> | Promise<Nullable<boolean>>;
+    login(userName: string, password: string): LoginResponse | Promise<LoginResponse>;
+    logout(): Nullable<boolean> | Promise<Nullable<boolean>>;
+}
+
+export interface LoginResponse {
+    user: User;
+    token: string;
 }
 
 export interface Car {
