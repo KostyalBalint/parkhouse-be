@@ -1,10 +1,16 @@
-import { ParkingSpaceType, Prisma, PrismaClient, User } from '@prisma/client';
+import {
+  GameCar,
+  ParkingSpaceType,
+  Prisma,
+  PrismaClient,
+  User,
+} from '@prisma/client';
 import { faker } from '@faker-js/faker';
 import { ParkingSpaceStatus } from '../../graphql/graphqlTypes';
 
 const prisma = new PrismaClient();
 
-async function seedUsers({ count }: { count: number }) {
+async function seedUsers({ count }: { count: number }, gameCars: GameCar[]) {
   const names = new Set<string>();
   while (names.size < count) {
     names.add(faker.name.firstName());
@@ -16,7 +22,7 @@ async function seedUsers({ count }: { count: number }) {
     avatar: faker.image.avatar(),
     phoneNumber: faker.phone.number('+36-30-###-####'),
     password: 'password',
-    selectedGameCarId: null,
+    selectedGameCarId: randomGameCar(index, gameCars),
     coin: 123,
   });
   await prisma.user.create({
@@ -26,13 +32,20 @@ async function seedUsers({ count }: { count: number }) {
       avatar: faker.image.avatar(),
       phoneNumber: faker.phone.number('+36-30-###-####'),
       password: 'password',
-      selectedGameCarId: null,
+      selectedGameCarId: randomGameCar(3, gameCars),
       coin: 123,
     },
   });
   return prisma.user.createMany({
     data: Array.from({ length: count }).map((_, index) => fakerUser(index)),
   });
+}
+
+function randomGameCar(index: number, gameCars: GameCar[]) {
+  if (index % 3 == 0) {
+    return gameCars[Math.floor(Math.random() * 17)].id;
+  }
+  return null;
 }
 function generatePlate() {
   let plate = '';
@@ -144,10 +157,15 @@ async function seedLevels(count: number, users: User[]) {
 }
 
 async function main() {
-  await seedUsers({
-    count: 100,
-  });
+  await seedGameCars();
+  const gameCars = await prisma.gameCar.findMany();
 
+  await seedUsers(
+    {
+      count: 100,
+    },
+    gameCars,
+  );
   const users = await prisma.user.findMany();
   console.log('Seeded users:', users.length);
   const cars = await seedCars({
