@@ -40,6 +40,7 @@ export enum ParkingSpaceType {
 
 export interface IQuery {
     levels(): Level[] | Promise<Level[]>;
+    level(id: string): Level | Promise<Level>;
     parkingSpace(id: string): ParkingSpace | Promise<ParkingSpace>;
     myReservations(): Reservation[] | Promise<Reservation[]>;
     myResignation(): Resignation[] | Promise<Resignation[]>;
