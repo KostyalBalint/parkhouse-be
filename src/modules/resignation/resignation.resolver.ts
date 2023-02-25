@@ -12,6 +12,6 @@ export class ResignationResolver {
     const userId = context.token?.user.id;
     if (!userId)
       throw new ApolloError('Unauthorized', 'UNAUTHORIZED', { code: 401 });
-    return this.resignationService.getResignationsByUserId(userId);
+    return await this.resignationService.getResignationsByUserId(userId);
   }
 }
