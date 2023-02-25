@@ -67,4 +67,14 @@ export class UserService {
 
     return parkingSpace?.ownerId === id;
   }
+
+  async getOwnedGameCars(userId: string) {
+    const gameCars = await this.prismaService.user
+      .findUnique({ where: { id: userId } })
+      .gameCars();
+    if (!gameCars) {
+      return [];
+    }
+    return gameCars;
+  }
 }
