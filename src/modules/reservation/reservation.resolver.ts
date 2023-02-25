@@ -28,18 +28,29 @@ export class ReservationResolver {
     this.reservationsService.getReservationsByUserId(userId);
   }
 
+  @Query('reservation')
+  async getReservation(@Args('id') id: string) {
+    return await this.reservationsService.getReservationById(id);
+  }
+
   @Mutation('makeReservation')
   async makeReservation(
     @Args('parkingSpaceId') parkingSpaceId: string, //: ID!,
     @Args('date') date: Date, //: DateTime!,
     @Args('type') type: ReservationType, //: ReservationType!,
     @Args('carId') carId: string, //: ID!,
+    @Context() context: ApplicationContext,
   ) {
+    const userId = context.token?.user.id;
+    if (!userId)
+      throw new ApolloError('Unauthorized', 'UNAUTHORIZED', { code: 401 });
+
     return await this.reservationsService.makeReservation(
       parkingSpaceId,
       date,
       type,
       carId,
+      userId,
     );
   }
 

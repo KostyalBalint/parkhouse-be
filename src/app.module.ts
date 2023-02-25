@@ -11,6 +11,7 @@ import { UserModule } from './modules/user/user.module';
 import { TokenService } from './token/token.service';
 import { ResignationModule } from './modules/resignation/resignation.module';
 import { createContext } from './graphql/createContext';
+import { GameCarModule } from './modules/game-car/game-car.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { createContext } from './graphql/createContext';
     ReservationModule,
     UserModule,
     ResignationModule,
+    GameCarModule,
   ],
   providers: [TokenService, Config],
 })

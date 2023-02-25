@@ -3,6 +3,7 @@ type Query {
     parkingSpace(id: ID!): ParkingSpace!
     myReservations: [Reservation!]!
     myResignation: [Resignation!]!
+    reservation(id: ID!): Reservation!
     searchByLicencePlate(queryString: String!): [Car!]!
     user(id: ID!): User!
     myUser: User!
@@ -14,6 +15,8 @@ type Mutation {
     makeResignation(parkingSpaceId: ID!, date: DateTime!, type: ReservationType!, carId: ID!): Resignation!
     changeReservationStatus(reservationId: ID!, type: ReservationType!): Reservation!
     notifyUser(userId: ID!, notificationType: NotificationType!, message: String): Boolean
+    addCar(licencePlate: String!): Car!
+    removeCar(carId: ID!): Boolean
     login(userName: String!, password: String!): LoginResponse!
     buyGameCar(gameCarId: ID!): Boolean
     selectGameCar(gameCarId: ID!): Boolean
@@ -63,7 +66,7 @@ type GameCar {
     name: String!
     price: Int!
     image: String!
-    owned: Boolean!
+    ownedByMe: Boolean!
 }
 
 enum ParkingSpaceStatus {
@@ -90,6 +93,12 @@ type Resignation {
     date: DateTime!
 }
 
+type Level {
+    id: ID!
+    label: String!
+    spaces: [ParkingSpace!]!
+}
+
 enum ReservationStatus {
     CREATED
     CHECKED_IN
@@ -106,12 +115,6 @@ enum ParkingSpaceType {
     NORMAL
     ELECTRIC
     DISABLED
-}
-
-type Level {
-    id: ID!
-    label: String!
-    spaces: [ParkingSpace!]!
 }
 
 scalar DateTime

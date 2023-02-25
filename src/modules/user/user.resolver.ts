@@ -1,5 +1,6 @@
 import {
   Args,
+  Context,
   Mutation,
   Parent,
   Query,
@@ -8,6 +9,7 @@ import {
 } from '@nestjs/graphql';
 import { UserService } from './user.service';
 import { User } from '../../graphql/graphqlTypes';
+import { ApplicationContext } from '../../graphql/createContext';
 
 @Resolver('User')
 export class UserResolver {
@@ -15,6 +17,15 @@ export class UserResolver {
   @Query('user')
   async getUser(@Args('id') id: string) {
     return await this.userService.getUserById(id);
+  }
+
+  @Query('myUser')
+  async myUser(@Context() context: ApplicationContext) {
+    const userId = context.token?.user.id;
+    if (!userId) {
+      throw new Error('Unauthorized');
+    }
+    return await this.userService.getUserById(userId);
   }
 
   @Mutation('login')

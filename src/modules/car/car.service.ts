@@ -29,4 +29,32 @@ export class CarService {
     }
     return user;
   }
+
+  async addCar(licencePlate: string, userId: string) {
+    return await this.prismaService.car.create({
+      data: {
+        licencePlate: licencePlate,
+        userId: userId,
+      },
+    });
+  }
+
+  async removeCar(carId: string, userId: string) {
+    const car = await this.prismaService.car.findUnique({
+      where: {
+        id: carId,
+      },
+    });
+    if (!car) {
+      throw new NotFoundException('Car not found');
+    }
+    if (car.userId !== userId) {
+      throw new Error('User does not own this car');
+    }
+    return await this.prismaService.car.delete({
+      where: {
+        id: carId,
+      },
+    });
+  }
 }

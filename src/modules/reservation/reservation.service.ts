@@ -50,10 +50,8 @@ export class ReservationService {
     date: Date,
     type: ReservationType,
     carId: string,
+    userId: string,
   ) {
-    //Todo get userId from AuthContext
-    const userId = '1';
-
     return await this.prismaService.reservation.create({
       data: {
         carId: carId,
@@ -79,5 +77,17 @@ export class ReservationService {
         status: status,
       },
     });
+  }
+
+  async getReservationById(id: string) {
+    const reservation = await this.prismaService.reservation.findUnique({
+      where: {
+        id: id,
+      },
+    });
+    if (!reservation) {
+      throw new NotFoundException('Reservation not found');
+    }
+    return reservation;
   }
 }

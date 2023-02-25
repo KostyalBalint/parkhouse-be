@@ -1,6 +1,16 @@
-import { Args, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
+import {
+  Args,
+  Context,
+  Mutation,
+  Parent,
+  Query,
+  ResolveField,
+  Resolver,
+} from '@nestjs/graphql';
 import { CarService } from './car.service';
 import { Car } from '../../graphql/graphqlTypes';
+import { ApplicationContext } from '../../graphql/createContext';
+import { ApolloError } from 'apollo-server-express';
 
 @Resolver('Car')
 export class CarResolver {
@@ -9,6 +19,30 @@ export class CarResolver {
   @Query('searchByLicencePlate')
   async searchByLicencePlate(@Args('licencePlate') queryString: string) {
     return await this.carService.searchByPartialLicencePlate(queryString);
+  }
+
+  @Mutation('addCar')
+  async addCar(
+    @Args('licencePlate') licencePlate: string,
+    @Context() context: ApplicationContext,
+  ) {
+    const userId = context.token?.user.id;
+    if (!userId) {
+      throw new ApolloError('Unauthorized', 'UNAUTHORIZED', { code: 401 });
+    }
+    return await this.carService.addCar(licencePlate, userId);
+  }
+
+  @Mutation('removeCar')
+  async removeCar(
+    @Args('carId') carId: string,
+    @Context() context: ApplicationContext,
+  ) {
+    const userId = context.token?.user.id;
+    if (!userId) {
+      throw new ApolloError('Unauthorized', 'UNAUTHORIZED', { code: 401 });
+    }
+    return await this.carService.removeCar(carId, userId);
   }
 
   @ResolveField('user')

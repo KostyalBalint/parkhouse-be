@@ -54,23 +54,28 @@ model Resignation {
 }
 
 model User {
-  id           String        @id @default(uuid())
-  name         String        @unique
-  password     String
-  avatar       String
-  phoneNumber  String
-  cars         Car[]
-  Reservation  Reservation[]
-  Resignation  Resignation[]
-  ParkingSpace ParkingSpace?
-  coin         Int           @default(0)
+  id                String        @id @default(uuid())
+  name              String        @unique
+  password          String
+  avatar            String
+  phoneNumber       String
+  cars              Car[]
+  Reservation       Reservation[]
+  Resignation       Resignation[]
+  ParkingSpace      ParkingSpace?
+  coin              Int           @default(0)
+  gameCars          GameCar[]
+  selectedGameCar   GameCar?      @relation(fields: [selectedGameCarId], references: [id], name: "selectedGameCar")
+  selectedGameCarId String?
 }
 
 model GameCar {
-  id    String @id @default(uuid())
-  name  String
-  price Int
-  image String
+  id             String @id @default(uuid())
+  name           String
+  price          Int
+  image          String
+  User           User[]
+  selectedByUser User[] @relation("selectedGameCar")
 }
 
 model Level {

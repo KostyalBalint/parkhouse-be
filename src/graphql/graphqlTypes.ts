@@ -54,6 +54,7 @@ export interface IMutation {
     makeResignation(parkingSpaceId: string, date: DateTime, type: ReservationType, carId: string): Resignation | Promise<Resignation>;
     changeReservationStatus(reservationId: string, type: ReservationType): Reservation | Promise<Reservation>;
     notifyUser(userId: string, notificationType: NotificationType, message?: Nullable<string>): Nullable<boolean> | Promise<Nullable<boolean>>;
+    addCar(licencePlate: string): Car | Promise<Car>;
     login(userName: string, password: string): LoginResponse | Promise<LoginResponse>;
     buyGameCar(gameCarId: string): Nullable<boolean> | Promise<Nullable<boolean>>;
     selectGameCar(gameCarId: string): Nullable<boolean> | Promise<Nullable<boolean>>;
@@ -97,7 +98,7 @@ export interface GameCar {
     name: string;
     price: number;
     image: string;
-    owned: boolean;
+    ownedByMe: boolean;
 }
 
 export interface Reservation {

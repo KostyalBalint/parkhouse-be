@@ -37,21 +37,21 @@ function seedLevels({ count }: { count: number }) {
 }
 
 async function main() {
-  /*const users = await seedUsers({
+  const users = await seedUsers({
     count: 10,
   });
 
-  console.log('Seeded users:', users.count);*/
+  console.log('Seeded users:', users.count);
 
   const cars = await seedCars({
     users: await prisma.user.findMany(),
   });
   console.log('Seed cars:', cars.count);
 
-  /*const levels = await seedLevels({
+  const levels = await seedLevels({
     count: 10,
   });
-  console.log('Seeded levels:', levels.count);*/
+  console.log('Seeded levels:', levels.count);
 }
 
 main()
