@@ -1,4 +1,4 @@
-import { Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
+import { Args, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
 import { Level } from '../../graphql/graphqlTypes';
 import { LevelService } from './level.service';
 
@@ -9,6 +9,11 @@ export class LevelResolver {
   @Query('levels')
   async levels() {
     return this.levelService.getAll();
+  }
+
+  @Query('level')
+  async level(@Args('id') id: string) {
+    return this.levelService.getById(id);
   }
 
   @ResolveField()

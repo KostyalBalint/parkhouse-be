@@ -1,5 +1,6 @@
 type Query {
     levels: [Level!]!
+    level(id: ID!): Level!
     parkingSpace(id: ID!): ParkingSpace!
     myReservations: [Reservation!]!
     myResignation: [Resignation!]!
