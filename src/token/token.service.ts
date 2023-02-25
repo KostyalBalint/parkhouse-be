@@ -24,7 +24,7 @@ export class TokenService {
       },
       this.config.jwtSecret,
       {
-        expiresIn: '1d',
+        expiresIn: '15d',
       },
     );
   }
