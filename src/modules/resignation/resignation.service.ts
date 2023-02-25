@@ -30,7 +30,7 @@ export class ResignationService {
       throw new Error('User does not have a parking space');
     }
 
-    await this.prismaService.resignation.create({
+    const resignation = await this.prismaService.resignation.create({
       data: {
         date,
         user: {
@@ -45,7 +45,7 @@ export class ResignationService {
         },
       },
     });
-    return true;
+    return resignation;
   }
 
   async cancelResignation(userId: string, date: Date) {
