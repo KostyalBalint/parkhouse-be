@@ -30,11 +30,12 @@ export class CarService {
     return user;
   }
 
-  async addCar(licencePlate: string, userId: string) {
+  async addCar(licencePlate: string, userId: string, name: string) {
     return await this.prismaService.car.create({
       data: {
-        licencePlate: licencePlate,
-        userId: userId,
+        licencePlate,
+        userId,
+        name,
       },
     });
   }

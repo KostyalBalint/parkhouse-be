@@ -24,13 +24,14 @@ export class CarResolver {
   @Mutation('addCar')
   async addCar(
     @Args('licencePlate') licencePlate: string,
+    @Args('name') name: string,
     @Context() context: ApplicationContext,
   ) {
     const userId = context.token?.user.id;
     if (!userId) {
       throw new ApolloError('Unauthorized', 'UNAUTHORIZED', { code: 401 });
     }
-    return await this.carService.addCar(licencePlate, userId);
+    return await this.carService.addCar(licencePlate, userId, name);
   }
 
   @Mutation('removeCar')

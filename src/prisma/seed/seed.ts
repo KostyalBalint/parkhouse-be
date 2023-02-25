@@ -22,6 +22,7 @@ async function seedCars({ users }: { users: User[] }) {
   const cars = users.map((user) => ({
     licencePlate: faker.vehicle.vin(),
     userId: user.id,
+    name: faker.vehicle.model(),
   }));
   return await prisma.car.createMany({
     data: cars,
