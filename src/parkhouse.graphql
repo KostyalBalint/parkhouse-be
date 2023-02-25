@@ -13,7 +13,8 @@ type Query {
 
 type Mutation {
     makeReservation(parkingSpaceId: ID!, date: DateTime!, type: ReservationType!, carId: ID!): Reservation!
-    makeResignation(parkingSpaceId: ID!, date: DateTime!, type: ReservationType!, carId: ID!): Resignation!
+    makeResignation(date: DateTime!): Resignation!
+    cancelResignation(date: DateTime!): Boolean
     changeReservationStatus(reservationId: ID!, type: ReservationType!): Reservation!
     notifyUser(userId: ID!, notificationType: NotificationType!, message: String): Boolean
     addCar(licencePlate: String!, name: String!): Car!

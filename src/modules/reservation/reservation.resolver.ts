@@ -25,7 +25,7 @@ export class ReservationResolver {
     const userId = context.token?.user.id;
     if (!userId)
       throw new ApolloError('Unauthorized', 'UNAUTHORIZED', { code: 401 });
-    this.reservationsService.getReservationsByUserId(userId);
+    return this.reservationsService.getReservationsByUserId(userId);
   }
 
   @Query('reservation')
