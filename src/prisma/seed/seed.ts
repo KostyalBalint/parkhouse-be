@@ -58,6 +58,44 @@ async function seedCars({ users }: { users: User[] }) {
   });
 }
 
+async function seedGameCars() {
+  const models = new Set<string>();
+  while (models.size < 6) {
+    models.add(faker.vehicle.model());
+  }
+  const fakeModels = Array.from(models);
+
+  const gameCarImages = [
+    'tdrc01_car01_b.png',
+    'tdrc01_car01_e.png',
+    'tdrc01_car01_f.png',
+    'tdrc01_car03_a.png',
+    'tdrc01_car03_c.png',
+    'tdrc01_car03_d.png',
+    'tdrc01_car04_a.png',
+    'tdrc01_car04_d.png',
+    'tdrc01_car04_f.png',
+    'tdrc01_car07_b.png',
+    'tdrc01_car07_d.png',
+    'tdrc01_car07_f.png',
+    'tdrc01_car08_a.png',
+    'tdrc01_car08_b.png',
+    'tdrc01_car08_d.png',
+    'tdrc01_car09_a.png',
+    'tdrc01_car09_e.png',
+    'tdrc01_car09_f.png',
+  ];
+  const gameCars = (index: number) => ({
+    name: fakeModels[Math.floor(index / 3)],
+    price: (Math.floor(Math.random() * 10) + 15) * 25,
+    image: gameCarImages[index],
+  });
+
+  return prisma.gameCar.createMany({
+    data: Array.from({ length: 18 }).map((_, index) => gameCars(index)),
+  });
+}
+
 async function seedLevels(count: number, users: User[]) {
   const parkingSpaces = (spaceIndex: number, levelIndex: number) => ({
     label: `A-${levelIndex * 100 + spaceIndex}`,
@@ -76,7 +114,7 @@ async function seedLevels(count: number, users: User[]) {
     currentStatus: ParkingSpaceStatus.RESERVED_FOR_OWNER,
   });
   const levels = (index: number): Omit<Prisma.LevelCreateInput, 'id'> => ({
-    label: `${index}.emelet`,
+    label: `${index + 1}.emelet`,
     ParkingSpace: {
       createMany: {
         data: [
@@ -84,11 +122,11 @@ async function seedLevels(count: number, users: User[]) {
             parkingOwnedSpaces(
               spaceIndex,
               users.slice(14 * index, 14 * (index + 1)),
-              index,
+              index + 1,
             ),
           ),
           ...Array.from({ length: 2 }).map((_, spaceIndex) =>
-            parkingSpaces(spaceIndex, index),
+            parkingSpaces(spaceIndex + 14, index + 1),
           ),
         ],
       },
@@ -120,6 +158,8 @@ async function main() {
   await seedLevels(5, users);
   const levels = await prisma.level.findMany();
   console.log('Seed levels:', levels.length);
+
+  await seedGameCars();
 }
 
 main()
