@@ -57,7 +57,8 @@ export class CarResolver {
     if (!userId) {
       throw new ApolloError('Unauthorized', 'UNAUTHORIZED', { code: 401 });
     }
-    return await this.carService.removeCar(carId, userId);
+    await this.carService.removeCar(carId, userId);
+    return true;
   }
 
   @ResolveField('user')
