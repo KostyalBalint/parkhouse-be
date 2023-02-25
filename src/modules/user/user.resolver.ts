@@ -19,6 +19,11 @@ export class UserResolver {
     return await this.userService.getUserById(id);
   }
 
+  @Query('users')
+  async getUsers() {
+    return await this.userService.findAll();
+  }
+
   @Query('myUser')
   async myUser(@Context() context: ApplicationContext) {
     const userId = context.token?.user.id;

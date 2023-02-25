@@ -9,6 +9,7 @@ type Query {
     user(id: ID!): User!
     myUser: User!
     gameCars: [GameCar!]!
+    users: [User!]!
 }
 
 type Mutation {

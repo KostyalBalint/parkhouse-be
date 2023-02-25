@@ -88,4 +88,8 @@ export class UserService {
     }
     return gameCar;
   }
+
+  async findAll() {
+    return await this.prismaService.user.findMany();
+  }
 }
