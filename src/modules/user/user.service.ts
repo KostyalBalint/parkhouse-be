@@ -15,6 +15,7 @@ export class UserService {
     if (!user) {
       throw new NotFoundException('User not found');
     }
+    console.log(user);
     return user;
   }
 
@@ -76,5 +77,19 @@ export class UserService {
       return [];
     }
     return gameCars;
+  }
+
+  async getSelectedGameCar(userId: string) {
+    const gameCar = await this.prismaService.user
+      .findUnique({ where: { id: userId } })
+      .selectedGameCar();
+    if (!gameCar) {
+      return null;
+    }
+    return gameCar;
+  }
+
+  async findAll() {
+    return await this.prismaService.user.findMany();
   }
 }

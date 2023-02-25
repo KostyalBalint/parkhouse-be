@@ -19,6 +19,11 @@ export class UserResolver {
     return await this.userService.getUserById(id);
   }
 
+  @Query('users')
+  async getUsers() {
+    return await this.userService.findAll();
+  }
+
   @Query('myUser')
   async myUser(@Context() context: ApplicationContext) {
     const userId = context.token?.user.id;
@@ -61,5 +66,17 @@ export class UserResolver {
       return [];
     }
     return await this.userService.getOwnedGameCars(userId);
+  }
+
+  @ResolveField('selectedGameCar')
+  async selectedGameCar(
+    @Parent() gameCar: GameCar,
+    @Context() context: ApplicationContext,
+  ) {
+    const userId = context.token?.user.id;
+    if (!userId) {
+      return null;
+    }
+    return await this.userService.getSelectedGameCar(userId);
   }
 }

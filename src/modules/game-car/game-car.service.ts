@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma/PrismaService';
-import { GameCar } from '../../graphql/graphqlTypes';
 
 @Injectable()
 export class GameCarService {
@@ -16,7 +15,7 @@ export class GameCarService {
           id: userId,
         },
       })
-      .cars();
+      .gameCars();
     if (!userCars) {
       return false;
     }
@@ -81,7 +80,7 @@ export class GameCarService {
       throw new Error('You do not own this car');
     }
 
-    await this.prismaService.user.update({
+    return await this.prismaService.user.update({
       where: {
         id: userId,
       },
