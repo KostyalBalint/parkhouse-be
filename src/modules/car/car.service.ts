@@ -58,4 +58,32 @@ export class CarService {
       },
     });
   }
+
+  async updateCar(
+    carId: string,
+    licencePlate: string,
+    userId: string,
+    name: string,
+  ) {
+    const car = await this.prismaService.car.findUnique({
+      where: {
+        id: carId,
+      },
+    });
+    if (!car) {
+      throw new NotFoundException('Car not found');
+    }
+    if (car.userId !== userId) {
+      throw new Error('User does not own this car');
+    }
+    return await this.prismaService.car.update({
+      where: {
+        id: carId,
+      },
+      data: {
+        licencePlate,
+        name,
+      },
+    });
+  }
 }

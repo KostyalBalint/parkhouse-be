@@ -16,6 +16,7 @@ type Mutation {
     changeReservationStatus(reservationId: ID!, type: ReservationType!): Reservation!
     notifyUser(userId: ID!, notificationType: NotificationType!, message: String): Boolean
     addCar(licencePlate: String!, name: String!): Car!
+    updateCar(carId: ID!, licencePlate: String!, name: String!): Car!
     removeCar(carId: ID!): Boolean
     login(userName: String!, password: String!): LoginResponse!
     buyGameCar(gameCarId: ID!): Boolean

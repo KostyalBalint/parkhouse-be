@@ -56,6 +56,7 @@ export interface IMutation {
     changeReservationStatus(reservationId: string, type: ReservationType): Reservation | Promise<Reservation>;
     notifyUser(userId: string, notificationType: NotificationType, message?: Nullable<string>): Nullable<boolean> | Promise<Nullable<boolean>>;
     addCar(licencePlate: string, name: string): Car | Promise<Car>;
+    updateCar(carId: string, licencePlate: string, name: string): Car | Promise<Car>;
     removeCar(carId: string): Nullable<boolean> | Promise<Nullable<boolean>>;
     login(userName: string, password: string): LoginResponse | Promise<LoginResponse>;
     buyGameCar(gameCarId: string): Nullable<boolean> | Promise<Nullable<boolean>>;
