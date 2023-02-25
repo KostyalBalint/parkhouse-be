@@ -43,6 +43,7 @@ export interface IQuery {
     parkingSpace(id: string): ParkingSpace | Promise<ParkingSpace>;
     myReservations(): Reservation[] | Promise<Reservation[]>;
     myResignation(): Resignation[] | Promise<Resignation[]>;
+    reservation(id: string): Reservation | Promise<Reservation>;
     searchByLicencePlate(queryString: string): Car[] | Promise<Car[]>;
     user(id: string): User | Promise<User>;
     myUser(): User | Promise<User>;
@@ -55,6 +56,7 @@ export interface IMutation {
     changeReservationStatus(reservationId: string, type: ReservationType): Reservation | Promise<Reservation>;
     notifyUser(userId: string, notificationType: NotificationType, message?: Nullable<string>): Nullable<boolean> | Promise<Nullable<boolean>>;
     addCar(licencePlate: string): Car | Promise<Car>;
+    removeCar(carId: string): Nullable<boolean> | Promise<Nullable<boolean>>;
     login(userName: string, password: string): LoginResponse | Promise<LoginResponse>;
     buyGameCar(gameCarId: string): Nullable<boolean> | Promise<Nullable<boolean>>;
     selectGameCar(gameCarId: string): Nullable<boolean> | Promise<Nullable<boolean>>;
