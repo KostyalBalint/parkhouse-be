@@ -62,4 +62,16 @@ export class UserResolver {
     }
     return await this.userService.getOwnedGameCars(userId);
   }
+
+  @ResolveField('selectedGameCar')
+  async selectedGameCar(
+    @Parent() gameCar: GameCar,
+    @Context() context: ApplicationContext,
+  ) {
+    const userId = context.token?.user.id;
+    if (!userId) {
+      return null;
+    }
+    return await this.userService.getSelectedGameCar(userId);
+  }
 }

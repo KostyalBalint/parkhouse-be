@@ -43,7 +43,8 @@ export class GameCarResolver {
       throw new ApolloError('Unauthorized', 'UNAUTHORIZED', { code: 401 });
     }
 
-    return await this.gameCarService.selectGameCar(gameCarId, userId);
+    await this.gameCarService.selectGameCar(gameCarId, userId);
+    return true;
   }
 
   @ResolveField('ownedByMe')

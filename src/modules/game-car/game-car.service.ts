@@ -80,7 +80,7 @@ export class GameCarService {
       throw new Error('You do not own this car');
     }
 
-    await this.prismaService.user.update({
+    return await this.prismaService.user.update({
       where: {
         id: userId,
       },
