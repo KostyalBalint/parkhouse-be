@@ -8,7 +8,7 @@ import {
   Resolver,
 } from '@nestjs/graphql';
 import { UserService } from './user.service';
-import { User } from '../../graphql/graphqlTypes';
+import { GameCar, User } from '../../graphql/graphqlTypes';
 import { ApplicationContext } from '../../graphql/createContext';
 
 @Resolver('User')
@@ -49,5 +49,17 @@ export class UserResolver {
   @ResolveField('hasFixedParkingSpace')
   async hasFixedParkingSpace(@Parent() user: User) {
     return await this.userService.hasFixedParkingSpace(user.id);
+  }
+
+  @ResolveField('ownedGameCars')
+  async getOwnedGameCars(
+    @Parent() gameCar: GameCar,
+    @Context() context: ApplicationContext,
+  ) {
+    const userId = context.token?.user.id;
+    if (!userId) {
+      return [];
+    }
+    return await this.userService.getOwnedGameCars(userId);
   }
 }

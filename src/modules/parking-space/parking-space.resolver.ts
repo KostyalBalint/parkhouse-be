@@ -23,4 +23,11 @@ export class ParkingSpaceResolver {
       parkingSpace.id,
     );
   }
+
+  @ResolveField('reservations')
+  async getReservations(@Parent() parkingSpace: ParkingSpace) {
+    return await this.parkingSpaceService.getReservationsByParkingSpaceId(
+      parkingSpace.id,
+    );
+  }
 }
