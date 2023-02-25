@@ -46,12 +46,12 @@ export class ReservationService {
   }
 
   async makeReservation(
-    parkingSpaceId: string,
     date: Date,
     type: ReservationType,
     carId: string,
     userId: string,
   ) {
+    const parkingSpaceId = (await this.getFreeParkingSpaces(date))[0].id;
     return await this.prismaService.reservation.create({
       data: {
         carId: carId,
@@ -91,23 +91,10 @@ export class ReservationService {
     return reservation;
   }
 
-  async generateParkingSpaceId(date: Date) {
-    const parkingSpaces = await this.prismaService.parkingSpace.findMany({
-      where: {
-        ownerId: null,
-      },
-      include: {
-        reservations: {
-          where: {
-            date: date,
-          },
-        },
-      },
-    });
-    if (parkingSpaces.length !== 0) {
-    }
-    const parkingSpace =
-      parkingSpaces[Math.floor(Math.random() * parkingSpaces.length)];
-    return parkingSpace.id;
+  async getFreeParkingSpaces(date: Date) {
+    const parkingSpaces = await this.prismaService.parkingSpace.findMany();
+    const reservations = await this.prismaService.reservation.findMany({where: {date}});
+    const resignations = await this.prismaService.resignation.findMany({where: {date}});
+    return parkingSpaces.filter(space => !reservations.some(reservation => reservation.parkingSpaceId === space.id)).filter(space => !space.ownerId || resignations.some(resignation => resignation.parkingSpaceId === space.id));
   }
 }

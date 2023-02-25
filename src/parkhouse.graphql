@@ -1,4 +1,5 @@
 type Query {
+    freeParkingSpaces(date: DateTime!): Int
     levels: [Level!]!
     level(id: ID!): Level!
     parkingSpace(id: ID!): ParkingSpace!

@@ -20,6 +20,12 @@ import { ApolloError } from 'apollo-server-express';
 export class ReservationResolver {
   constructor(private readonly reservationsService: ReservationService) {}
 
+  @Query('freeParkingSpaces')
+  async freeParkingSpaces(@Args('date') date: Date){
+    const spaces = await this.reservationsService.getFreeParkingSpaces(date);
+    return spaces.length;
+  }
+
   @Query('myReservations')
   async myReservations(@Context() context: ApplicationContext) {
     const userId = context.token?.user.id;
@@ -44,11 +50,7 @@ export class ReservationResolver {
     if (!userId)
       throw new ApolloError('Unauthorized', 'UNAUTHORIZED', { code: 401 });
 
-    const parkingSpaceId =
-      await this.reservationsService.generateParkingSpaceId(date);
-
     return await this.reservationsService.makeReservation(
-      parkingSpaceId,
       date,
       type,
       carId,
