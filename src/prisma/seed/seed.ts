@@ -11,6 +11,7 @@ function seedUsers({ count }: { count: number }) {
     phoneNumber: faker.phone.number('+36-30-###-####'),
     password: 'password',
     coin: 123,
+    selectedGameCarId: null,
   });
   return prisma.user.createMany({
     data: Array.from({ length: count }).map(fakerUser),
