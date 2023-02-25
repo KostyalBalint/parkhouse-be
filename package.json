@@ -22,7 +22,7 @@
     "db:generate": "npx prisma generate",
     "db:migrate:dev": "npx prisma migrate dev",
     "db:migrate:prod": "npx prisma migrate deploy",
-    "db:seed": " ts-node src/prisma/seed/seed.ts",
+    "db:seed": "ts-node src/prisma/seed/seed.ts",
     "skaffold": "skaffold deploy --module=postgresql --port-forward"
   },
   "dependencies": {
