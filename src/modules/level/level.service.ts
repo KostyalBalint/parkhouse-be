@@ -20,8 +20,8 @@ export class LevelService {
     return parkingSpaces;
   }
 
-  getById(id: string) {
-    const level = this.prismaService.level.findUnique({ where: { id } });
+  async getById(id: string) {
+    const level = await this.prismaService.level.findUnique({ where: { id } });
     if (!level) {
       throw new NotFoundException('Level not found');
     }

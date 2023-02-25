@@ -74,7 +74,7 @@ export interface User {
     hasFixedParkingSpace: boolean;
     coin: number;
     ownedGameCars: GameCar[];
-    selectedGameCar: GameCar;
+    selectedGameCar?: Nullable<GameCar>;
 }
 
 export interface LoginResponse {
@@ -96,6 +96,7 @@ export interface ParkingSpace {
     type: ParkingSpaceType;
     owner?: Nullable<User>;
     currentStatus: ParkingSpaceStatus;
+    reservations?: Nullable<Reservation[]>;
 }
 
 export interface GameCar {

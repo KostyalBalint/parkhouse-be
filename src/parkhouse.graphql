@@ -34,7 +34,7 @@ type User {
     hasFixedParkingSpace: Boolean!
     coin: Int!
     ownedGameCars: [GameCar!]!
-    selectedGameCar: GameCar!
+    selectedGameCar: GameCar
 }
 
 type LoginResponse {
@@ -62,6 +62,7 @@ type ParkingSpace {
     type: ParkingSpaceType!
     owner: User
     currentStatus: ParkingSpaceStatus!
+    reservations: [Reservation!]
 }
 
 type GameCar {

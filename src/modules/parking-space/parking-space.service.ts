@@ -29,8 +29,16 @@ export class ParkingSpaceService {
       .findUnique({ where: { id } })
       .owner();
     if (!owner) {
-      throw new NotFoundException('Owner not found');
+      return null;
     }
     return owner;
+  }
+
+  async getReservationsByParkingSpaceId(id: string) {
+    return await this.prismaService.reservation.findMany({
+      where: {
+        parkingSpaceId: id,
+      },
+    });
   }
 }
