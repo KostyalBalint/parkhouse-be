@@ -90,4 +90,24 @@ export class ReservationService {
     }
     return reservation;
   }
+
+  async generateParkingSpaceId(date: Date) {
+    const parkingSpaces = await this.prismaService.parkingSpace.findMany({
+      where: {
+        ownerId: null,
+      },
+      include: {
+        reservations: {
+          where: {
+            date: date,
+          },
+        },
+      },
+    });
+    if (parkingSpaces.length !== 0) {
+    }
+    const parkingSpace =
+      parkingSpaces[Math.floor(Math.random() * parkingSpaces.length)];
+    return parkingSpace.id;
+  }
 }

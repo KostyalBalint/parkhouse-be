@@ -13,7 +13,7 @@ type Query {
 }
 
 type Mutation {
-    makeReservation(parkingSpaceId: ID!, date: DateTime!, type: ReservationType!, carId: ID!): Reservation!
+    makeReservation(date: DateTime!, type: ReservationType!, carId: ID!): Reservation!
     makeResignation(date: DateTime!): Resignation!
     cancelResignation(date: DateTime!): Boolean
     changeReservationStatus(reservationId: ID!, type: ReservationType!): Reservation!

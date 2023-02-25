@@ -35,7 +35,6 @@ export class ReservationResolver {
 
   @Mutation('makeReservation')
   async makeReservation(
-    @Args('parkingSpaceId') parkingSpaceId: string, //: ID!,
     @Args('date') date: Date, //: DateTime!,
     @Args('type') type: ReservationType, //: ReservationType!,
     @Args('carId') carId: string, //: ID!,
@@ -44,6 +43,9 @@ export class ReservationResolver {
     const userId = context.token?.user.id;
     if (!userId)
       throw new ApolloError('Unauthorized', 'UNAUTHORIZED', { code: 401 });
+
+    const parkingSpaceId =
+      await this.reservationsService.generateParkingSpaceId(date);
 
     return await this.reservationsService.makeReservation(
       parkingSpaceId,
