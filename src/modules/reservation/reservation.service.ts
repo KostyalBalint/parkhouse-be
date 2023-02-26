@@ -93,8 +93,25 @@ export class ReservationService {
 
   async getFreeParkingSpaces(date: Date) {
     const parkingSpaces = await this.prismaService.parkingSpace.findMany();
-    const reservations = await this.prismaService.reservation.findMany({where: {date}});
-    const resignations = await this.prismaService.resignation.findMany({where: {date}});
-    return parkingSpaces.filter(space => !reservations.some(reservation => reservation.parkingSpaceId === space.id)).filter(space => !space.ownerId || resignations.some(resignation => resignation.parkingSpaceId === space.id));
+    const reservations = await this.prismaService.reservation.findMany({
+      where: { date },
+    });
+    const resignations = await this.prismaService.resignation.findMany({
+      where: { date },
+    });
+    return parkingSpaces
+      .filter(
+        (space) =>
+          !reservations.some(
+            (reservation) => reservation.parkingSpaceId === space.id,
+          ),
+      )
+      .filter(
+        (space) =>
+          !space.ownerId ||
+          resignations.some(
+            (resignation) => resignation.parkingSpaceId === space.id,
+          ),
+      );
   }
 }
