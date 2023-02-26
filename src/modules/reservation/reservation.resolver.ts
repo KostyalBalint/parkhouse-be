@@ -60,7 +60,8 @@ export class ReservationResolver {
 
   @Mutation('cancelReservation')
   async cancelReservation(@Args('reservationId') reservationId: string) {
-    return await this.reservationsService.cancelReservation(reservationId);
+    await this.reservationsService.cancelReservation(reservationId);
+    return true;
   }
 
   @Mutation('changeReservationStatus')
