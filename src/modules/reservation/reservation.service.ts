@@ -114,4 +114,12 @@ export class ReservationService {
           ),
       );
   }
+
+  async cancelReservation(reservationId: string) {
+    return await this.prismaService.reservation.delete({
+      where: {
+        id: reservationId,
+      },
+    });
+  }
 }

@@ -21,7 +21,7 @@ export class ReservationResolver {
   constructor(private readonly reservationsService: ReservationService) {}
 
   @Query('freeParkingSpaces')
-  async freeParkingSpaces(@Args('date') date: Date){
+  async freeParkingSpaces(@Args('date') date: Date) {
     const spaces = await this.reservationsService.getFreeParkingSpaces(date);
     return spaces.length;
   }
@@ -56,6 +56,11 @@ export class ReservationResolver {
       carId,
       userId,
     );
+  }
+
+  @Mutation('cancelReservation')
+  async cancelReservation(@Args('reservationId') reservationId: string) {
+    return await this.reservationsService.cancelReservation(reservationId);
   }
 
   @Mutation('changeReservationStatus')

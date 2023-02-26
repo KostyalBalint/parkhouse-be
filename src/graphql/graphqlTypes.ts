@@ -39,6 +39,7 @@ export enum ParkingSpaceType {
 }
 
 export interface IQuery {
+    freeParkingSpaces(date: DateTime): Nullable<number> | Promise<Nullable<number>>;
     levels(): Level[] | Promise<Level[]>;
     level(id: string): Level | Promise<Level>;
     parkingSpace(id: string): ParkingSpace | Promise<ParkingSpace>;
@@ -49,11 +50,14 @@ export interface IQuery {
     user(id: string): User | Promise<User>;
     myUser(): User | Promise<User>;
     gameCars(): GameCar[] | Promise<GameCar[]>;
+    users(): User[] | Promise<User[]>;
 }
 
 export interface IMutation {
-    makeReservation(parkingSpaceId: string, date: DateTime, type: ReservationType, carId: string): Reservation | Promise<Reservation>;
-    makeResignation(parkingSpaceId: string, date: DateTime, type: ReservationType, carId: string): Resignation | Promise<Resignation>;
+    makeReservation(date: DateTime, type: ReservationType, carId: string): Reservation | Promise<Reservation>;
+    makeResignation(date: DateTime): Resignation | Promise<Resignation>;
+    cancelResignation(date: DateTime): Nullable<boolean> | Promise<Nullable<boolean>>;
+    cancelReservation(reservationId: string): Nullable<boolean> | Promise<Nullable<boolean>>;
     changeReservationStatus(reservationId: string, type: ReservationType): Reservation | Promise<Reservation>;
     notifyUser(userId: string, notificationType: NotificationType, message?: Nullable<string>): Nullable<boolean> | Promise<Nullable<boolean>>;
     addCar(licencePlate: string, name: string): Car | Promise<Car>;
